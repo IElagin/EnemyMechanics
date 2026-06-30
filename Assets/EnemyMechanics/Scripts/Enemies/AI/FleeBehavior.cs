@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using EnemyMechanics.Movement;
+using UnityEngine;
 
 namespace EnemyMechanics.Enemies.AI
 {
-    public class FleeBehavior : IReactionBehavior
+    public class FleeBehavior : MovementBehavior
     {
-        public Vector3 Tick(IEnemyContext enemy, Transform player)
-        {
-            Vector3 direction = (enemy.Position - player.position);
-            direction.y = 0;
-            
-            return direction.normalized;
-        }
+        private readonly Transform _self;                                                                                                                                                                                                                                                                            
+        private readonly Transform _target;                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                   
+        public FleeBehavior(Transform self, Transform target, Mover mover) : base(mover)                                                                                                                                                                                                                             
+        {                                                                                                                                                                                                                                                                                                            
+            _self = self;                                                                                                                                                                                                                                                                                            
+            _target = target;                                                                                                                                                                                                                                                                                        
+        }                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                   
+        protected override Vector3 GetDirection() => _self.position - _target.position;
     }
 }

@@ -1,13 +1,15 @@
-﻿using UnityEngine;
-
+﻿
 namespace EnemyMechanics.Enemies.AI
 {
-    public class DieBehavior : IReactionBehavior
+    public class DieBehavior : IBehavior
     {
-        public Vector3 Tick(IEnemyContext enemy, Transform player)
+        private readonly IKillable _target;
+
+        public DieBehavior(IKillable target)
         {
-            enemy.Die();
-            return Vector3.zero;
+            _target = target;
         }
+
+        public void Tick(float deltaTime) => _target.Die();
     }
 }

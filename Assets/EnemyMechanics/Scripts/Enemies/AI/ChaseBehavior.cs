@@ -1,15 +1,19 @@
-﻿using UnityEngine;
+﻿using EnemyMechanics.Movement;
+using UnityEngine;
 
 namespace EnemyMechanics.Enemies.AI
 {
-    public class ChaseBehavior : IReactionBehavior
+    public class ChaseBehavior : MovementBehavior
     {
-        public Vector3 Tick(IEnemyContext enemy, Transform player)
+        private readonly Transform _self;
+        private readonly Transform _target;
+        
+        public ChaseBehavior(Transform self, Transform target, Mover mover) : base(mover)
         {
-            Vector3 direction = (player.position - enemy.Position);
-            direction.y = 0;
-            
-            return direction.normalized;    
+            _self = self;
+            _target = target;
         }
+
+        protected override Vector3 GetDirection() => _target.position - _self.position;
     }
 }

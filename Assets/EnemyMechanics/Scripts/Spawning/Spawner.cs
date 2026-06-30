@@ -2,6 +2,7 @@
 using UnityEngine;
 using EnemyMechanics.Enemies;
 using EnemyMechanics.Enemies.AI;
+using EnemyMechanics.Movement;
 using EnemyMechanics.Playing;
 
 namespace EnemyMechanics.Spawning
@@ -18,12 +19,14 @@ namespace EnemyMechanics.Spawning
             foreach (SpawnPoint spawnPoint in _spawnPoints)
             {
                 Enemy enemy = Instantiate(spawnPoint.EnemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+                Transform self = enemy.transform;
+                Mover mover = enemy.GetComponent<Mover>();
+                Transform target = player.transform;
+                
+                IBehavior idleBehavior = _idleFactory.Create(spawnPoint.IdleBehavior, self, mover, spawnPoint.PatrolPoints);
+                IBehavior reactionBehavior = _reactionFactory.Create(spawnPoint.ReactionBehavior, self, target, mover, enemy);
 
-                IIdleBehavior idleBehavior = _idleFactory.Create(spawnPoint.IdleBehavior, spawnPoint.PatrolPoints);
-                IReactionBehavior reactionBehavior = _reactionFactory.Create(spawnPoint.ReactionBehavior);
-
-                enemy.Initialize(idleBehavior, reactionBehavior);
-                enemy.Initialize(player);
+                enemy.Initialize(idleBehavior, reactionBehavior, target);
             }
         }
     }

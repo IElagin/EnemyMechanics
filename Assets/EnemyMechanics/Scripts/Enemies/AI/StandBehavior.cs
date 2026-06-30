@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-
+﻿
 namespace EnemyMechanics.Enemies.AI
 {
-    public class StandBehavior : IIdleBehavior
+    public class StandBehavior : IBehavior
     {
-        public Vector3 Tick(IEnemyContext enemy)
+        public void Tick(float deltaTime)
         {
-            return Vector3.zero;
+            
         }
     }
 }
